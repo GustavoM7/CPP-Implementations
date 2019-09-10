@@ -4,7 +4,7 @@
 using namespace std;
 
 //Complexidade O(n²)
-void insertionsort(int* A, int n){
+void insertionsort(int A[], int n){
     int j, i, pivo;
     for(j = 1; j < n; j++){
         pivo = A[j];

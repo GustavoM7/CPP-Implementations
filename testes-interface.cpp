@@ -30,13 +30,12 @@ int main(){
 }
 
 void insertionsort_teste(){
-    int * A;
     int n, e;
     double t;
     
     cout << "Entre o tamanho do vetor: ";
     cin >> n;
-    A = (int*) malloc(n);
+    int A[n];
     cout << "Entre os elementos do vetor:" << endl;
     for(int i = 0; i < n; i ++){
         cin >> A[i];

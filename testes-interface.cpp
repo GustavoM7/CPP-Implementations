@@ -3,38 +3,34 @@
 #include "insertion-sort.hpp"
 #include "merge-sort.hpp"
 #include "quicksort.hpp"
+#include "maxmin.hpp"
+#include "counting-sort.hpp"
 
 using namespace std;
 
-void pre_sorts(int sort);
+bool pre_sorts(int sort);
 int main(){
-    int input;
+    bool flag = true;
+    while(flag){
+        int input;
 
-    cout << "Selecione a implementação" << endl;
-    cout << "1: Insertion Sort" << endl;
-    cout << "2: Merge Sort" << endl;
-    cout << "3: Quicksort" << endl;
+        cout << "Selecione a implementação" << endl;
+        cout << "1: Máximo" << endl;
+        cout << "2: Mínimo" << endl;
+        cout << "3: Insertion Sort" << endl;
+        cout << "4: Merge Sort" << endl;
+        cout << "5: Quicksort" << endl;
+        cout << "6: Counting Sort" << endl;
 
-    cin >> input;
-
-    switch(input){
-        case 1: 
-            pre_sorts(1);
-            break;
-        case 2: 
-            pre_sorts(2);
-            break;
-        case 3:
-            pre_sorts(3);
-            break;
-        default:
-            cout << "Valor inválido..." << endl;
+        cin >> input;
+        flag = pre_sorts(input);    
     }
 }
 
-void pre_sorts(int sort){
+bool pre_sorts(int sort){
     int n, e;
     double t;
+    char resp;
     
     cout << "Entre o tamanho do array: ";
     cin >> n;
@@ -46,38 +42,73 @@ void pre_sorts(int sort){
         cin >> A[i];
     }
 
-    cout << "Executando ordenação..." << endl;
+    cout << "Executando..." << endl;
     clock_t Ticks[2];
 
     switch (sort){
-    case 1:
+    case 3:
         Ticks[0] = clock();
         insertionsort(A, n);
         Ticks[1] = clock();
         break;
 
-    case 2:
+    case 4:
         Ticks[0] = clock();
         mergeSort(A, Aux, 0, n);
         Ticks[1] = clock();
         break;
 
-    case 3:
+    case 5:
         Ticks[0] = clock();
         quicksort(A, 0, n - 1);
         Ticks[1] = clock();
         break;
-    
+
+    case 1:
+        Ticks[0] = clock();
+        e = maxmin(A, n, 1);
+        Ticks[1] = clock();
+        break;
+
+    case 2:
+        Ticks[0] = clock();
+        e = maxmin(A, n, -1);
+        Ticks[1] = clock();
+        break;
+
+    case 6:
+        e = maxmin(A, n, 1) + 1;
+        Ticks[0] = clock();
+        countingSort(Aux, A, n, e);
+        Ticks[1] = clock();
+        break;
+
     default:
+        cout << "Entrada inválida..." << endl;
         break;
     }
 
     t = (Ticks[1] - Ticks[0]) * 1000.0 / CLOCKS_PER_SEC;
 
-    cout << "Array ordenado:" << endl;
-    for(int i = 0; i < n; i ++){
-        cout << A[i] << endl;
+    if(sort == 6){
+        cout << "Array ordenado: " << endl;
+        for(int i = 0; i < n; i ++){
+            cout << Aux[i] << endl;
+        }
+    } else if(sort > 2){
+        cout << "Array ordenado:" << endl;
+        for(int i = 0; i < n; i ++){
+            cout << A[i] << endl;
+        }
+    } else {
+        printf("Resposta: %i \n", e);
     }
 
     printf("Tempo gasto: %g ms \n", t);
+
+    cout << "Continuar?" << endl;
+    cin >> resp;
+
+    if(resp == 'S' || resp == 's') return true;
+    return false;
 }

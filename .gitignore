@@ -1,3 +1,6 @@
 #Ignorar executáveis
 
 *.exe
+*.bin
+*.out
+*.app
